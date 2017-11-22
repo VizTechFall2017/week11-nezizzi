@@ -57,7 +57,10 @@ d3.csv('./daca_timeline.csv', function(dataIn){
             return scaleX (d.date);
         })
         .attr('y', scaleY(200))
-        .text(function(d){return d.text});
+        .attr('class', 'textBox');
+        //.text(function(d){return d.text});
+
+    wrap(d3.selectAll('.textBox'),100)
 
 });
 
@@ -66,7 +69,7 @@ d3.csv('./daca_timeline.csv', function(dataIn){
 function wrap(text, wordList, width) {
     text.each(function () {
         var text = d3.select(this),
-            words = wordList.split(/\s+/).reverse(),
+            words = text.datum().text.split(/\s+/).reverse(),
             word,
             line = [],
             lineNumber = 0,
