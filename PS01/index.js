@@ -228,12 +228,20 @@ d3.csv('./data.csv', function(dataIn){
             .attr('opacity', '.35')
             .on('mouseover', function(d){
                 d3.select(this).attr('opacity', '1');
-                           })
+                //console.log(Map4.get(d.C15BMSCH));
+            })
             .on('mouseout', function(d){
                 d3.select(this).attr('opacity', '.35');
             });
 
+        var totalLength = linesCurrent.node().getTotalLength();
 
+        linesCurrent.attr("stroke-dasharray", totalLength + " " + totalLength)
+            .attr("stroke-dashoffset", totalLength)
+            .transition()
+            .duration(2000)
+            .ease("linear")
+            .attr("stroke-dashoffset", 0);
 
         // Returns the path for a given data point.
         function path(d) {
