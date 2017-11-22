@@ -79,7 +79,13 @@ d3.csv('./banks.csv', function(banks){
         .data(banks)
         .enter().append("circle")
         .attr("r", function(d) { return radiusScale(d.assets); })
-        .style("fill", function(d) { return colorScale(d.cluster); });
+        .style("fill", function(d) { return colorScale(d.cluster); })
+        .on('mouseover', function (d){
+            document.getElementById('title').innerHTML = (d.bank);
+            document.getElementById('rank').innerHTML = (d.rank);
+            document.getElementById('assets').innerHTML = (d.assets);
+            document.getElementById('country').innerHTML = (d.country);
+        });
 
     circle.append('title').text(function(d){return d.bank + '; ' + d.country});
 
