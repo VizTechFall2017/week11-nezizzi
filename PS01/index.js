@@ -234,14 +234,14 @@ d3.csv('./data.csv', function(dataIn){
                 d3.select(this).attr('opacity', '.35');
             });
 
-        var totalLength = linesCurrent.node().getTotalLength();
+       // var totalLength = linesCurrent.node().get();
 
-        linesCurrent.attr("stroke-dasharray", totalLength + " " + totalLength)
-            .attr("stroke-dashoffset", totalLength)
-            .transition()
-            .duration(2000)
-            .ease("linear")
-            .attr("stroke-dashoffset", 0);
+       // linesCurrent.attr("stroke-dasharray", totalLength + " " + totalLength)
+       //     .attr("stroke-dashoffset", totalLength)
+       ///     .transition()
+       //     .duration(2000)
+      //      .ease("linear")
+      //      .attr("stroke-dashoffset", 0);
 
         // Returns the path for a given data point.
         function path(d) {
