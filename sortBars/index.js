@@ -14,6 +14,9 @@ var svg = d3.select('svg')
 var scaleX = d3.scaleBand().rangeRound([0, 600]).padding(0.1);
 var scaleY = d3.scaleLinear().range([400, 0]);
 
+var sortOrder= "descending";
+var currentYear=  "1987";
+
 
 //import the data from the .csv file
 d3.csv('./countryData_topten.csv', function(dataIn){
@@ -23,6 +26,13 @@ d3.csv('./countryData_topten.csv', function(dataIn){
         .entries(dataIn);
 
     var loadData = nestedData.filter(function(d){return d.key == '1987'})[0].values;
+
+
+///////////////////////////SORT FUNCTION //////////////////////////////////////////////////////
+    loadData.sort(function (a,b) {
+        return b.totalPop - a.totalPop;
+    });
+
 
     // Add the x Axis
     svg.append("g")
@@ -120,13 +130,28 @@ function drawPoints(pointData){
     //rects.exit()
     //    .remove();
 
-
-
 }
 
 
 function updateData(selectedYear){
-    return nestedData.filter(function(d){return d.key == selectedYear})[0].values;
+
+
+
+    if (sortOrder == "alphabetical"){
+        var newData=  nestedData.filter(function(d){return d.key == selectedYear})[0].values;
+        return newData.sort(function (a,b) {
+            return a.fullname.localeCompare(b.fullname);
+        });
+    }
+
+    if (sortOrder == "descending"){
+        //console.log(sortOrder);
+        var newData=  nestedData.filter(function(d){return d.key == selectedYear})[0].values;
+        return newData.sort(function (a,b) {
+            return b.totalPop - a.totalPop;
+        });
+    }
+
 }
 
 
@@ -134,6 +159,14 @@ function updateData(selectedYear){
 function sliderMoved(value){
 
     newData = updateData(value);
+    currentYear = value;
     drawPoints(newData);
 
+}
+
+function radioChange(value) {
+    console.log(value);
+    newData = updateData(currentYear);
+    drawPoints(newData);
+    sortOrder = value
 }
