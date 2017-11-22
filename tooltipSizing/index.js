@@ -117,7 +117,7 @@ function drawPoints(pointData){
         })
         .attr('data-toggle', 'tooltip')
         .attr('title', function(d) {
-            return d.men;
+            return d.tooltipText;
         });
         /*
         .on("mouseover", function(d) {
