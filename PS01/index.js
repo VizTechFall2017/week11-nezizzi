@@ -199,10 +199,6 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-        var line= d3.line()
-            //.curve(d3.curveCatmullRom);
-            .curve(d3.curveCardinal);
-
 
         var pathData= [ {value: 1, data: "C12STPCR"},
             {value: 2, data: "C13STOP1"},
@@ -213,39 +209,61 @@ d3.csv('./data.csv', function(dataIn){
             Map.set(d.value, d.data);
         });
 
-      // Add a group element for each dimension.
-         linesCurrent = svg.append("g")
-            .attr("class", "current")
-            .selectAll("path")
-            .data(pointData)
-             .enter();
+        /*
+
+             var t = d3.transition()
+                 .duration(1000)
+                 .ease(d3.easeLinear)
+                 .on("start", function(d){ console.log("transiton start") })
+                 .on("end", function(d){ console.log("transiton end") })
+
+             var lineGen= d3.line()
+             //.curve(d3.curveCatmullRom);
+                 .curve(d3.curveCardinal);
+
+             var line = svg.selectAll("path")
+                 .datum(pointData)
+                 .enter();
+
+             line.enter().append("path").classed("line", true)
+                 .merge(line)
+                 .attr("d", path)
+                 .attr("fill", "none")
+                 .attr("stroke", "purple")
+                 .attr("stroke-dasharray", function(d){ return this.getTotalLength() })
+                 .attr("stroke-dashoffset", function(d){ return this.getTotalLength() });
+
+             svg.selectAll(".line").transition(t)
+                 .attr("stroke-dashoffset", 0);
+
+              */
+
+           // Add a group element for each dimension.
+              linesCurrent = svg.append("g")
+                 .attr("class", "current")
+                 .selectAll("path")
+                 .data(pointData)
+                  .enter();
 
 
-        linesCurrent.append("path")
-            .attr("d", path)
-            .attr('fill','none')
-            .attr('stroke','purple')
-            .attr('opacity', '.35')
-            .on('mouseover', function(d){
-                d3.select(this).attr('opacity', '1');
-                //console.log(Map4.get(d.C15BMSCH));
-            })
-            .on('mouseout', function(d){
-                d3.select(this).attr('opacity', '.35');
-            });
+             linesCurrent.append("path")
+                 .attr("d", path)
+                 .attr('fill','none')
+                 .attr('stroke','purple')
+                 .attr('opacity', '.35')
+                 .on('mouseover', function(d){
+                     d3.select(this).attr('opacity', '1');
+                     //console.log(Map4.get(d.C15BMSCH));
+                 })
+                 .on('mouseout', function(d){
+                     d3.select(this).attr('opacity', '.35');
+                 });
 
-       // var totalLength = linesCurrent.node().get();
 
-       // linesCurrent.attr("stroke-dasharray", totalLength + " " + totalLength)
-       //     .attr("stroke-dashoffset", totalLength)
-       ///     .transition()
-       //     .duration(2000)
-      //      .ease("linear")
-      //      .attr("stroke-dashoffset", 0);
 
         // Returns the path for a given data point.
         function path(d) {
-            return line(pathData.map(function(p) {
+            return lineGen(pathData.map(function(p) {
                 //console.log(p.data, d[p.data], scaleY1(d[p.data]));
                 //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
 
