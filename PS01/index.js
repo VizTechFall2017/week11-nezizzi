@@ -206,7 +206,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
+    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually stop Dancing?", "Why did you stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
         .range([0, width/3, 2*width/3, width]);
 
     svg2.append("g")
@@ -246,7 +246,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
     drawPointsCurrent(currentDancers);
-    //drawPointsFormer(formerDancers);
+    drawPointsFormer(formerDancers);
 
     });
 
@@ -371,7 +371,7 @@ function drawPointsFormer(pointData){
         .attr('fill','none')
         .attr('stroke','purple')
         .attr('opacity', '.35')
-        .call(transition2)
+        .call(transition)
         .on('mouseover', function(d){
             d3.select(this).attr('opacity', '1');
         })
@@ -380,14 +380,14 @@ function drawPointsFormer(pointData){
         });
 
 
-    function transition2(path) {
+    function transition(path) {
         path.transition()
             .duration(7500)
-            .attrTween("stroke-dasharray", tweenDash2)
+            .attrTween("stroke-dasharray", tweenDash)
             .delay(function(d,i) { return i*50; })
     }
 
-    function tweenDash2() {
+    function tweenDash() {
         var l = this.getTotalLength(),
             i = d3.interpolateString("0," + l, l + "," + l);
         return function(t) { return i(t) };
@@ -411,7 +411,7 @@ function drawPointsFormer(pointData){
                     return 0;
                 }
                 else {
-                    return [scaleX_2("What age did you actually  stop Dancing?"), scaleY2_2(d[p.data])];
+                    return [scaleX_2("What age did you actually stop Dancing?"), scaleY2_2(d[p.data])];
                 }
             }
             if(p.value ==3){
