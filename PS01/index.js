@@ -170,14 +170,8 @@ d3.csv('./data.csv', function(dataIn){
             return d.A1CURFOR
         })
         .entries(dataIn);
-    currentDancers1 = nestedData.filter(function(d){return d.key == '1'})[0].values;
+    currentDancers = nestedData.filter(function(d){return d.key == '1'})[0].values;
     formerDancers = nestedData.filter(function(d){return d.key == '2'})[0].values;
-
-
-    currentDancers= currentDancers1.filter(function(d){return d.F13STOP1 =! 'D'});
-
-    console.log(currentDancers1);
-    console.log(currentDancers);
 
 
     scaleX.domain(["What age do you think you will stop Dancing?", "Why do you think you will stop dancing?", "What will be the most serious challenge you will face when you stop dancing?"])
@@ -252,7 +246,7 @@ d3.csv('./data.csv', function(dataIn){
         .attr('transform', 'translate('+width+',0)');
 
 
-    //drawPointsCurrent(currentDancers);
+    drawPointsCurrent(currentDancers);
     //drawPointsFormer(formerDancers);
 
     });
