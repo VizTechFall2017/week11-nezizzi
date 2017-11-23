@@ -212,13 +212,18 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
+
        linesCurrent = svg.append("g")
             .attr("class", "current")
             .selectAll("path")
             .data(pointData)
-            .enter();
+           .enter();
+
+        linesCurrent.exit()
+            .remove();
 
         linesCurrent.append("path")
+
             .attr("d", path)
             .attr('fill','none')
             .attr('stroke','purple')
@@ -271,16 +276,10 @@ d3.csv('./data.csv', function(dataIn){
         }
 }
 
-/* function buttonClicked(){
+function buttonClicked(){
 
-   if(clicked == true){
-       drawPoints(currentDancers);
-       clicked = false;
+       svg.selectAll('.current').remove();
+        drawPoints(currentDancers);
 
-   }
-   else{
-       drawPoints(formerDancers);
-       clicked = true;
-   }
+
 }
-*/
