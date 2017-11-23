@@ -33,7 +33,9 @@ var svg2 = d3.select("body").append("svg")
 ///////////////////////////////////////////////////Define variables//////////////////////////////////////////////
 
 var nestedData = [];
+var nestedData2 = [];
 var formerDancers;
+var currentDancers1;
 var currentDancers;
 clicked=false;
 var Map = d3.map();
@@ -168,31 +170,35 @@ d3.csv('./data.csv', function(dataIn){
             return d.A1CURFOR
         })
         .entries(dataIn);
-    currentDancers = nestedData.filter(function(d){return d.key == '1'})[0].values;
+    currentDancers1 = nestedData.filter(function(d){return d.key == '1'})[0].values;
     formerDancers = nestedData.filter(function(d){return d.key == '2'})[0].values;
+
+
+    currentDancers= currentDancers1.filter(function(d){return d.F13STOP1 =! 'D'});
+
+    console.log(currentDancers1);
+    console.log(currentDancers);
+
 
     scaleX.domain(["What age do you think you will stop Dancing?", "Why do you think you will stop dancing?", "What will be the most serious challenge you will face when you stop dancing?"])
             .range([0, width/2, width]);
 
     svg.append("g")
         . attr('class', 'xaxis')
-        .style("font", "10px times")
         .call(d3.axisBottom(scaleX))
         .attr('transform', 'translate(0,'+height+')');
 
 
        //Axis for "What AGE do you think you will stop dancing?"
-        scaleY1.domain([0, d3.max(dataIn.map(function(d){return +d.C12STPCR}))]);
+        scaleY1.domain([0, d3.max(dataIn.map(function(d){return +d.C12STPCR }))]);
         svg.append("g")
             .attr('class','yaxis')
-            .style("font", "12px times")
             .call(d3.axisLeft(scaleY1));
 
         //Axis for "Why do you think you will stop dancing?"
         scaleY2.domain(dataIn.map(function(d){return Map3.get(+d.C13STOP1)}));
         svg.append("g")
             .attr('class','yaxis')
-            .style("font", "12px times")
             .call(d3.axisLeft(scaleY2))
             .attr('transform', 'translate('+width/2+',0)');
 
@@ -201,19 +207,17 @@ d3.csv('./data.csv', function(dataIn){
         scaleY3.domain(dataIn.map(function(d){return Map4.get(+d.C15BMSCH)}));
         svg.append("g")
             .attr('class','yaxis')
-            .style("font", "12px times")
             .call(d3.axisLeft(scaleY3))
             .attr('transform', 'translate('+width+',0)');
 
 
 
 
-    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you expect to stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
+    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
         .range([0, width/3, 2*width/3, width]);
 
     svg2.append("g")
         .attr('class', 'xaxis')
-        .style("font", "10px times")
         .call(d3.axisBottom(scaleX_2))
         .attr('transform', 'translate(0,'+height+')');
 
@@ -222,14 +226,12 @@ d3.csv('./data.csv', function(dataIn){
     scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12AEXFN}))]);
     svg2.append("g")
         .attr('class','yaxis')
-        .style("font", "12px times")
         .call(d3.axisLeft(scaleY1_2));
 
     //"What age did you actually  stop Dancing?"
     scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12BFNCR}))]);
     svg2.append("g")
         .attr('class','yaxis')
-        .style("font", "12px times")
         .call(d3.axisLeft(scaleY1_2))
         .attr('transform', 'translate('+width/3+',0)');
 
@@ -238,7 +240,6 @@ d3.csv('./data.csv', function(dataIn){
     scaleY3_2.domain(dataIn.map(function(d){return Map5.get(+d.F13STOP1)}));
     svg2.append("g")
         .attr('class','yaxis')
-        .style("font", "12px times")
         .call(d3.axisLeft(scaleY3_2))
         .attr('transform', 'translate('+2*width/3+',0)');
 
@@ -247,18 +248,18 @@ d3.csv('./data.csv', function(dataIn){
     scaleY4_2.domain(dataIn.map(function(d){return Map6.get(+d.F15BMSCH)}));
     svg2.append("g")
         .attr('class','yaxis')
-        .style("font", "12px times")
         .call(d3.axisLeft(scaleY4_2))
         .attr('transform', 'translate('+width+',0)');
 
 
-    drawPoints(currentDancers);
+    //drawPointsCurrent(currentDancers);
+    //drawPointsFormer(formerDancers);
 
     });
 
 
 
-    function drawPoints(pointData){
+    function drawPointsCurrent(pointData){
 
         var pathData= [ {value: 1, data: "C12STPCR"},
             {value: 2, data: "C13STOP1"},
@@ -283,7 +284,6 @@ d3.csv('./data.csv', function(dataIn){
             .remove();
 
         linesCurrent.append("path")
-
             .attr("d", path)
             .attr('fill','none')
             .attr('stroke','purple')
@@ -329,17 +329,97 @@ d3.csv('./data.csv', function(dataIn){
                 }
                 if(p.value ==3){
                     //console.log(d[p.data]);
-                    //console.log(Map3.get(+d[p.data]));
-                    return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
+                   return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
                 }
             }))
         }
 }
 
+
+function drawPointsFormer(pointData){
+
+    var pathData= [ {value: 1, data: "F12AEXFN"},
+        {value: 2, data: "F12BFNCR"},
+        {value: 3, data: "F13STOP1"},
+        {value: 4, data: "F15BMSCH"}
+    ];
+
+    var pathMap= pathData.forEach(function (d) {
+        Map.set(d.value, d.data);
+    });
+
+    var lineGen= d3.line()
+       .curve(d3.curveCardinal);
+
+    linesFormer= svg2.append("g")
+        .attr("class", "former")
+        .selectAll("path")
+        .data(pointData)
+        .enter();
+
+    linesFormer.exit()
+        .remove();
+
+    linesFormer.append("path")
+        .attr("d", path)
+        .attr('fill','none')
+        .attr('stroke','purple')
+        .attr('opacity', '.35')
+        .call(transition2)
+        .on('mouseover', function(d){
+            d3.select(this).attr('opacity', '1');
+        })
+        .on('mouseout', function(d){
+            d3.select(this).attr('opacity', '.35');
+        });
+
+
+    function transition2(path) {
+        path.transition()
+            .duration(7500)
+            .attrTween("stroke-dasharray", tweenDash2)
+            .delay(function(d,i) { return i*50; })
+    }
+
+    function tweenDash2() {
+        var l = this.getTotalLength(),
+            i = d3.interpolateString("0," + l, l + "," + l);
+        return function(t) { return i(t) };
+    }
+
+    // Returns the path for a given data point.
+    function path(d) {
+        return lineGen(pathData.map(function(p) {
+           if(p.value ==1){
+               //console.log(scaleY1_2(d[p.data]));
+                return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(d[p.data])];
+            }
+            if(p.value ==2){
+                //console.log(d[p.data]);
+                return [scaleX_2("What age did you actually  stop Dancing?"), scaleY2_2(d[p.data])];
+            }
+            if(p.value ==3){
+                //console.log(Map5.get(+d[p.data]));
+                return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(+d[p.data]))];
+            }
+            if(p.value ==4){
+                //console.log(scaleY4_2(Map6.get(+d[p.data])));
+                return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get(+d[p.data]))];
+            }
+        }))
+    }
+}
+
+
+
+
 function buttonClicked(){
 
-       svg.selectAll('.current').remove();
+    svg.selectAll('.current').remove();
     drawPoints(currentDancers);
+
+    svg.selectAll('.former').remove();
+    drawPointsFormer(formerDancers);
 
 
 }
