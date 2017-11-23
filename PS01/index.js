@@ -205,7 +205,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
     scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you think you would stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
-        .range([0, width/4, 3*width/4, width]);
+        .range([0, width/3, 2*width/3, width]);
 
     svg2.append("g")
         . attr('class', 'xaxis')
@@ -213,25 +213,33 @@ d3.csv('./data.csv', function(dataIn){
         .attr('transform', 'translate(0,'+height+')');
 
 
-    //Axis for "What AGE do you think you will stop dancing?"
-    scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.C12STPCR}))]);
+    //Axis for "What age did you expect to stop Dancing?
+    scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12AEXFN}))]);
     svg2.append("g")
         .attr('class','yaxis')
         .call(d3.axisLeft(scaleY1_2));
 
-    //Axis for "Why do you think you will stop dancing?"
-    scaleY2_2.domain(dataIn.map(function(d){return Map5.get(+d.C13STOP1)}));
+    //"What age did you actually  stop Dancing?"
+    scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12BFNCR}))]);
     svg2.append("g")
         .attr('class','yaxis')
-        .call(d3.axisLeft(scaleY2_2))
-        .attr('transform', 'translate('+width/2+',0)');
+        .call(d3.axisLeft(scaleY1_2))
+        .attr('transform', 'translate('+width/3+',0)');
 
 
-    //Axis for "What Challenges do you think will be most serious?"
-    scaleY3_2.domain(dataIn.map(function(d){return Map6.get(+d.C15BMSCH)}));
+    //Axis for Why did you think you would stop dancing?
+    scaleY3_2.domain(dataIn.map(function(d){return Map5.get(+d.F13STOP1)}));
     svg2.append("g")
         .attr('class','yaxis')
         .call(d3.axisLeft(scaleY3_2))
+        .attr('transform', 'translate('+2*width/3+',0)');
+
+
+    //Axis for "What was the most serious challenge you will faced when you stopped dancing?"
+    scaleY4_2.domain(dataIn.map(function(d){return Map6.get(+d.F15BMSCH)}));
+    svg2.append("g")
+        .attr('class','yaxis')
+        .call(d3.axisLeft(scaleY4_2))
         .attr('transform', 'translate('+width+',0)');
 
 
