@@ -8,12 +8,24 @@ var scaleX= d3.scaleOrdinal().range([0, width]);
 var scaleY1 = d3.scaleLinear().range([height, 0]);
 var scaleY2 = d3.scalePoint().range([height, 0]);
 var scaleY3 = d3.scalePoint().range([height, 0]);
-var scaleY4 = d3.scalePoint().range([height, 0]);
+var scaleX_2= d3.scaleOrdinal().range([0, width]);
+var scaleY1_2 = d3.scaleLinear().range([height, 0]);
+var scaleY2_2 = d3.scalePoint().range([height, 0]);
+var scaleY3_2 = d3.scalePoint().range([height, 0]);
+var scaleY4_2 = d3.scalePoint().range([height, 0]);
 
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
+    .attr('class', 'svg')
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var svg2 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr('class', 'svg2')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
@@ -189,7 +201,41 @@ d3.csv('./data.csv', function(dataIn){
             .call(d3.axisLeft(scaleY3))
             .attr('transform', 'translate('+width+',0)');
 
-        drawPoints(currentDancers);
+
+
+
+    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you think you would stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
+        .range([0, width/4, 3*width/4, width]);
+
+    svg2.append("g")
+        . attr('class', 'xaxis')
+        .call(d3.axisBottom(scaleX_2))
+        .attr('transform', 'translate(0,'+height+')');
+
+
+    //Axis for "What AGE do you think you will stop dancing?"
+    scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.C12STPCR}))]);
+    svg2.append("g")
+        .attr('class','yaxis')
+        .call(d3.axisLeft(scaleY1_2));
+
+    //Axis for "Why do you think you will stop dancing?"
+    scaleY2_2.domain(dataIn.map(function(d){return Map5.get(+d.C13STOP1)}));
+    svg2.append("g")
+        .attr('class','yaxis')
+        .call(d3.axisLeft(scaleY2_2))
+        .attr('transform', 'translate('+width/2+',0)');
+
+
+    //Axis for "What Challenges do you think will be most serious?"
+    scaleY3_2.domain(dataIn.map(function(d){return Map6.get(+d.C15BMSCH)}));
+    svg2.append("g")
+        .attr('class','yaxis')
+        .call(d3.axisLeft(scaleY3_2))
+        .attr('transform', 'translate('+width+',0)');
+
+
+    drawPoints(currentDancers);
 
     });
 
@@ -209,9 +255,6 @@ d3.csv('./data.csv', function(dataIn){
         var lineGen= d3.line()
         //.curve(d3.curveCatmullRom);
             .curve(d3.curveCardinal);
-
-
-
 
        linesCurrent = svg.append("g")
             .attr("class", "current")
@@ -279,7 +322,7 @@ d3.csv('./data.csv', function(dataIn){
 function buttonClicked(){
 
        svg.selectAll('.current').remove();
-        drawPoints(currentDancers);
+    drawPoints(currentDancers);
 
 
 }
