@@ -1,6 +1,6 @@
 var margin = {top: 66, right: 180, bottom: 20, left: 110},
     width = document.body.clientWidth - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom,
+    height = 400 - margin.top - margin.bottom,
     innerHeight = height - 2;
 
 
@@ -210,33 +210,34 @@ d3.csv('./data.csv', function(dataIn){
         //.curve(d3.curveCatmullRom);
             .curve(d3.curveCardinal);
 
-          // Add a group element for each dimension.
-             linesCurrent = svg.append("g")
-                .attr("class", "current")
-                .selectAll("path")
-                .data(pointData)
-                 .enter();
 
 
-            linesCurrent.append("path")
-                .attr("d", path)
+       linesCurrent = svg.append("g")
+            .attr("class", "current")
+            .selectAll("path")
+            .data(pointData)
+            .enter();
 
-                .attr('fill','none')
-                .attr('stroke','purple')
-                .attr('opacity', '.35')
-                .call(transition)
-                .on('mouseover', function(d){
-                    d3.select(this).attr('opacity', '1');
-                    //console.log(Map4.get(d.C15BMSCH));
-                })
-                .on('mouseout', function(d){
-                    d3.select(this).attr('opacity', '.35');
-                });
+        linesCurrent.append("path")
+            .attr("d", path)
+            .attr('fill','none')
+            .attr('stroke','purple')
+            .attr('opacity', '.35')
+            .call(transition)
+            .on('mouseover', function(d){
+                d3.select(this).attr('opacity', '1');
+                //console.log(Map4.get(d.C15BMSCH));
+            })
+            .on('mouseout', function(d){
+                d3.select(this).attr('opacity', '.35');
+            });
+
 
         function transition(path) {
             path.transition()
                 .duration(7500)
                 .attrTween("stroke-dasharray", tweenDash)
+                .delay(function(d,i) { return i*50; })
         }
 
         function tweenDash() {
@@ -245,34 +246,29 @@ d3.csv('./data.csv', function(dataIn){
             return function(t) { return i(t) };
         }
 
+        // Returns the path for a given data point.
+        function path(d) {
+            return lineGen(pathData.map(function(p) {
+                //console.log(p.data, d[p.data], scaleY1(d[p.data]));
+                //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
 
-       // Returns the path for a given data point.
-       function path(d) {
-           return lineGen(pathData.map(function(p) {
-               //console.log(p.data, d[p.data], scaleY1(d[p.data]));
-               //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
-
-               if(p.value ==1){
-                   //console.log(d[p.data]);
-                   return [scaleX("What age do you think you will stop Dancing?"), scaleY1(d[p.data])];
-               }
-               if(p.value ==2){
-                   //console.log(d[p.data]);
-                   //console.log(Map2.get(+d[p.data]));
-                   //console.log(Map3.get(+d[p.data]));
-                   return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get(+d[p.data]))];
-               }
-               if(p.value ==3){
-                   //console.log(d[p.data]);
-                   //console.log(Map3.get(+d[p.data]));
-                   return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
-               }
-           }))
-       }
-
-
-
-
+                if(p.value ==1){
+                    //console.log(d[p.data]);
+                    return [scaleX("What age do you think you will stop Dancing?"), scaleY1(d[p.data])];
+                }
+                if(p.value ==2){
+                    //console.log(d[p.data]);
+                    //console.log(Map2.get(+d[p.data]));
+                    //console.log(Map3.get(+d[p.data]));
+                    return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get(+d[p.data]))];
+                }
+                if(p.value ==3){
+                    //console.log(d[p.data]);
+                    //console.log(Map3.get(+d[p.data]));
+                    return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
+                }
+            }))
+        }
 }
 
 /* function buttonClicked(){
