@@ -176,6 +176,7 @@ d3.csv('./data.csv', function(dataIn){
 
     svg.append("g")
         . attr('class', 'xaxis')
+        .style("font", "10px times")
         .call(d3.axisBottom(scaleX))
         .attr('transform', 'translate(0,'+height+')');
 
@@ -184,12 +185,14 @@ d3.csv('./data.csv', function(dataIn){
         scaleY1.domain([0, d3.max(dataIn.map(function(d){return +d.C12STPCR}))]);
         svg.append("g")
             .attr('class','yaxis')
+            .style("font", "12px times")
             .call(d3.axisLeft(scaleY1));
 
         //Axis for "Why do you think you will stop dancing?"
         scaleY2.domain(dataIn.map(function(d){return Map3.get(+d.C13STOP1)}));
         svg.append("g")
             .attr('class','yaxis')
+            .style("font", "12px times")
             .call(d3.axisLeft(scaleY2))
             .attr('transform', 'translate('+width/2+',0)');
 
@@ -198,17 +201,19 @@ d3.csv('./data.csv', function(dataIn){
         scaleY3.domain(dataIn.map(function(d){return Map4.get(+d.C15BMSCH)}));
         svg.append("g")
             .attr('class','yaxis')
+            .style("font", "12px times")
             .call(d3.axisLeft(scaleY3))
             .attr('transform', 'translate('+width+',0)');
 
 
 
 
-    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you think you would stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
+    scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you expect to stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
         .range([0, width/3, 2*width/3, width]);
 
     svg2.append("g")
-        . attr('class', 'xaxis')
+        .attr('class', 'xaxis')
+        .style("font", "10px times")
         .call(d3.axisBottom(scaleX_2))
         .attr('transform', 'translate(0,'+height+')');
 
@@ -217,12 +222,14 @@ d3.csv('./data.csv', function(dataIn){
     scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12AEXFN}))]);
     svg2.append("g")
         .attr('class','yaxis')
+        .style("font", "12px times")
         .call(d3.axisLeft(scaleY1_2));
 
     //"What age did you actually  stop Dancing?"
     scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12BFNCR}))]);
     svg2.append("g")
         .attr('class','yaxis')
+        .style("font", "12px times")
         .call(d3.axisLeft(scaleY1_2))
         .attr('transform', 'translate('+width/3+',0)');
 
@@ -231,6 +238,7 @@ d3.csv('./data.csv', function(dataIn){
     scaleY3_2.domain(dataIn.map(function(d){return Map5.get(+d.F13STOP1)}));
     svg2.append("g")
         .attr('class','yaxis')
+        .style("font", "12px times")
         .call(d3.axisLeft(scaleY3_2))
         .attr('transform', 'translate('+2*width/3+',0)');
 
@@ -239,6 +247,7 @@ d3.csv('./data.csv', function(dataIn){
     scaleY4_2.domain(dataIn.map(function(d){return Map6.get(+d.F15BMSCH)}));
     svg2.append("g")
         .attr('class','yaxis')
+        .style("font", "12px times")
         .call(d3.axisLeft(scaleY4_2))
         .attr('transform', 'translate('+width+',0)');
 
