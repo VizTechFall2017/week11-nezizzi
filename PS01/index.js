@@ -206,7 +206,6 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-
     scaleX_2.domain(["What age did you expect to stop Dancing?", "What age did you actually  stop Dancing?", "Why did you stop dancing?", "What was the most serious challenge you will faced when you stopped dancing?"])
         .range([0, width/3, 2*width/3, width]);
 
@@ -310,20 +309,33 @@ d3.csv('./data.csv', function(dataIn){
             return lineGen(pathData.map(function(p) {
                 //console.log(p.data, d[p.data], scaleY1(d[p.data]));
                 //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
-
                 if(p.value ==1){
-                    //console.log(d[p.data]);
-                    return [scaleX("What age do you think you will stop Dancing?"), scaleY1(d[p.data])];
+                    if (isNaN(d[p.data])){
+                        return 0
+                    }
+                    else {
+                        return [scaleX("What age do you think you will stop Dancing?"), scaleY1(d[p.data])];
+                    }
                 }
                 if(p.value ==2){
                     //console.log(d[p.data]);
                     //console.log(Map2.get(+d[p.data]));
                     //console.log(Map3.get(+d[p.data]));
-                    return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get(+d[p.data]))];
+                    if (isNaN(d[p.data])) {
+                        return 0
+                    }
+                    else {
+                        return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get(+d[p.data]))];
+                    }
                 }
                 if(p.value ==3){
                     //console.log(d[p.data]);
-                   return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
+                    if (isNaN(d[p.data])){
+                        return 0
+                    }
+                    else {
+                        return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
+                    }
                 }
             }))
         }
@@ -386,19 +398,40 @@ function drawPointsFormer(pointData){
         return lineGen(pathData.map(function(p) {
            if(p.value ==1){
                //console.log(scaleY1_2(d[p.data]));
-                return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(d[p.data])];
+               if (isNaN(d[p.data])){
+                   return 0;
+               }
+               else {
+                   return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(d[p.data])];
+               }
             }
             if(p.value ==2){
                 //console.log(d[p.data]);
-                return [scaleX_2("What age did you actually  stop Dancing?"), scaleY2_2(d[p.data])];
+                if (isNaN(d[p.data])){
+                    return 0;
+                }
+                else {
+                    return [scaleX_2("What age did you actually  stop Dancing?"), scaleY2_2(d[p.data])];
+                }
             }
             if(p.value ==3){
                 //console.log(Map5.get(+d[p.data]));
-                return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(+d[p.data]))];
+                if (isNaN(d[p.data])){
+                    return 0;
+                }
+                else {
+                    return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(+d[p.data]))];
+                }
             }
             if(p.value ==4){
-                //console.log(scaleY4_2(Map6.get(+d[p.data])));
-                return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get(+d[p.data]))];
+                //console.log(scaleY4_2(Map6.get(0)));
+                if (isNaN(d[p.data])){
+                    return 0;
+                }
+                else {
+                    return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get(+d[p.data]))];
+                }
+
             }
         }))
     }
@@ -412,7 +445,7 @@ function buttonClicked(){
     svg.selectAll('.current').remove();
     drawPoints(currentDancers);
 
-    svg.selectAll('.former').remove();
+    svg2.selectAll('.former').remove();
     drawPointsFormer(formerDancers);
 
 
