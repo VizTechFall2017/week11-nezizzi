@@ -28,6 +28,20 @@ var svg2 = d3.select("body").append("svg")
     .attr('class', 'svg2')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+var svg3 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr('class', 'svg3')
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var svg4 = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr('class', 'svg3')
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 
 ///////////////////////////////////////////////////Define variables//////////////////////////////////////////////
@@ -311,18 +325,19 @@ d3.csv('./data.csv', function(dataIn){
                 //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
                 if(p.value ==1){
                     if (isNaN(d[p.data])){
-                        return 0
+                        return  0
+                        //return [scaleX("What age do you think you will stop Dancing?"), scaleY1('D')];
                     }
                     else {
-                        return [scaleX("What age do you think you will stop Dancing?"), scaleY1(d[p.data])];
+                        return [scaleX("What age do you think you will stop Dancing?"), scaleY1(+d[p.data])];
                     }
                 }
                 if(p.value ==2){
                     //console.log(d[p.data]);
                     //console.log(Map2.get(+d[p.data]));
-                    //console.log(Map3.get(+d[p.data]));
+                    //console.log(Map3.get('D'));
                     if (isNaN(d[p.data])) {
-                        return 0
+                        return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get('D'))];
                     }
                     else {
                         return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get(+d[p.data]))];
@@ -331,7 +346,7 @@ d3.csv('./data.csv', function(dataIn){
                 if(p.value ==3){
                     //console.log(d[p.data]);
                     if (isNaN(d[p.data])){
-                        return 0
+                        return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get('D'))];
                     }
                     else {
                         return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
@@ -399,7 +414,7 @@ function drawPointsFormer(pointData){
            if(p.value ==1){
                //console.log(scaleY1_2(d[p.data]));
                if (isNaN(d[p.data])){
-                   return 0;
+                   return [0,0];
                }
                else {
                    return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(d[p.data])];
@@ -408,7 +423,7 @@ function drawPointsFormer(pointData){
             if(p.value ==2){
                 //console.log(d[p.data]);
                 if (isNaN(d[p.data])){
-                    return 0;
+                    return [0,0];
                 }
                 else {
                     return [scaleX_2("What age did you actually stop Dancing?"), scaleY2_2(d[p.data])];
@@ -417,7 +432,7 @@ function drawPointsFormer(pointData){
             if(p.value ==3){
                 //console.log(Map5.get(+d[p.data]));
                 if (isNaN(d[p.data])){
-                    return 0;
+                    return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get('D'))];
                 }
                 else {
                     return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(+d[p.data]))];
@@ -426,7 +441,7 @@ function drawPointsFormer(pointData){
             if(p.value ==4){
                 //console.log(scaleY4_2(Map6.get(0)));
                 if (isNaN(d[p.data])){
-                    return 0;
+                    return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get('D'))];
                 }
                 else {
                     return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get(+d[p.data]))];
