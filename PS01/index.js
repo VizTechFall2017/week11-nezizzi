@@ -417,7 +417,7 @@ function drawPointsFormer(pointData){
                    return [0,0];
                }
                else {
-                   return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(d[p.data])];
+                   return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(+d[p.data])];
                }
             }
             if(p.value ==2){
@@ -426,7 +426,7 @@ function drawPointsFormer(pointData){
                     return [0,0];
                 }
                 else {
-                    return [scaleX_2("What age did you actually stop Dancing?"), scaleY2_2(d[p.data])];
+                    return [scaleX_2("What age did you actually stop Dancing?"), scaleY2_2(+d[p.data])];
                 }
             }
             if(p.value ==3){
@@ -452,7 +452,10 @@ function drawPointsFormer(pointData){
     }
 }
 
+function drawCircles(pointData) {
 
+
+}
 
 
 function buttonClicked(){
