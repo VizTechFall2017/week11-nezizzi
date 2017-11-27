@@ -61,6 +61,14 @@ var Map5 = d3.map();
 var Map6 = d3.map();
 var linesCurrent;
 
+//circle variables
+var circles;
+var circle_axis;
+var circles2;
+var circle_axis2;
+var center_x= width/2;
+var center_y= height/2;
+var R=19;
 
 ///////////////////////////////////////////////////Answer key maps//////////////////////////////////////////////
 var danceEd = [{value: 1, text: "None"},
@@ -257,6 +265,160 @@ d3.csv('./data.csv', function(dataIn){
         .attr('class','yaxis')
         .call(d3.axisLeft(scaleY4_2))
         .attr('transform', 'translate('+width+',0)');
+
+
+
+    circles=svg3.selectAll('circle')
+        .data(challengesCurrent)
+        .enter()
+        .append('circle');
+
+    circle_axis= circles
+        .attr("cx", center_x)
+        .attr("cy", center_y)
+        .attr("r", function(d){
+            if (isNaN(d.value)) {
+                return 0
+            } else {
+                return R*d.value
+            }
+        })
+        .attr("stroke", "black")
+        .attr('stroke-dasharray', function (d) {
+            return d.value
+        })
+        .attr('stoke-width', '10')
+        .attr("fill", "none")
+        .attr('data-toggle', 'tooltip')
+        .attr('title', function(d){
+            return  d.text;
+        });
+
+    //circle axis key1
+    axisKey=svg3.selectAll('line')
+        .data(challengesCurrent)
+        .enter()
+        .append('line');
+
+    axisKeyLabel= axisKey
+        .attr("x1", 6*width/8)
+        .attr("y1", function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                return 10+15*d.value
+            }
+        })
+        .attr("x2", 7*width/8)
+        .attr("y2", function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                return 10+15*d.value
+            }
+        })
+        .attr("stroke", "black")
+        .attr('stoke-width', '10')
+        .attr('stroke-dasharray', function (d) {
+            return d.value
+        });
+
+
+    textKey= svg3.selectAll('text')
+        .data(challengesCurrent)
+        .enter()
+        .append('text');
+
+    textKey1= textKey
+        .attr('x', 3+7*width/8)
+        .attr('y', function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                console.log(d.value);
+                return 12+15*d.value
+            }})
+        .text(function(d){console.log(d.text); return d.text})
+        .attr("font-size", "10px")
+        .attr("fill", "black");
+
+
+
+    circles=svg4.selectAll('circle')
+        .data(challengesFormer)
+        .enter()
+        .append('circle');
+
+    circle_axis= circles
+        .attr("cx", center_x)
+        .attr("cy", center_y)
+        .attr("r", function(d){
+             if (isNaN(d.value)) {
+                return 0
+            } else {
+                return R*d.value
+            }
+        })
+        .attr("stroke", "black")
+        .attr('stroke-dasharray', function (d) {
+            return d.value
+        })
+        .attr('stoke-width', '10')
+        .attr("fill", "none")
+        .attr('data-toggle', 'tooltip')
+        .attr('title', function(d){
+            return  d.text;
+        });
+
+
+    //circle axis key2
+    axisKey=svg4.selectAll('line')
+        .data(challengesFormer)
+        .enter()
+        .append('line');
+
+    axisKeyLabel= axisKey
+        .attr("x1", 6*width/8)
+        .attr("y1", function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                return 10+15*d.value
+            }
+        })
+        .attr("x2", 7*width/8)
+        .attr("y2", function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                return 10+15*d.value
+            }
+        })
+        .attr("stroke", "black")
+        .attr('stoke-width', '10')
+        .attr('stroke-dasharray', function (d) {
+            return d.value
+        });
+
+
+    textKey2= svg4.selectAll('text')
+        .data(challengesFormer)
+        .enter()
+        .append('text');
+
+    textKey3= textKey2
+        .attr('x', 3+7*width/8)
+        .attr('y', function(d){
+            if (isNaN(d.value)) {
+                return -1000
+            } else {
+                console.log(d.value);
+                return 12+15*d.value
+            }})
+        .text(function(d){console.log(d.text); return d.text})
+        .attr("font-size", "10px")
+        .attr("fill", "black");
+
 
 
     drawPointsCurrent(currentDancers);
