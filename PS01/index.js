@@ -39,7 +39,7 @@ var svg4 = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
-    .attr('class', 'svg3')
+    .attr('class', 'svg4')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
