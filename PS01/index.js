@@ -266,13 +266,15 @@ d3.csv('./data.csv', function(dataIn){
         .call(d3.axisLeft(scaleY1_2));
 
     //"What age did you actually  stop Dancing?"
-    scaleY1_2.domain([0, d3.max(dataIn.map(function(d){return +d.F12BFNCR}))]);
+
+    //console.log(d3.max(dataIn.map(function(d) {return +d.F12BFNCR})));
+    scaleY2_2.domain([0, d3.max(dataIn.map(function(d) {return +d.F12BFNCR}))]);
     svg2.append("g")
         .attr('class','yaxis')
-        .call(d3.axisLeft(scaleY1_2))
+        .call(d3.axisLeft(scaleY2_2))
         .attr('transform', 'translate('+width/3+',0)');
 
-
+//F12BFNCR
     //Axis for Why did you think you would stop dancing?
     scaleY3_2.domain(dataIn.map(function(d){return Map5.get(+d.F13STOP1)}));
     svg2.append("g")
@@ -451,8 +453,8 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-    drawPointsCurrent(currentDancers);
-    drawPointsFormer(formerDancers);
+    //drawPointsCurrent(currentDancers);
+    //drawPointsFormer(formerDancers);
     drawCirclesCurrent(currentDancers);
     drawCirclesFormer(formerDancers);
 
@@ -471,6 +473,8 @@ d3.csv('./data.csv', function(dataIn){
             Map.set(d.value, d.data);
         });
 
+
+
         var lineGen= d3.line()
         //.curve(d3.curveCatmullRom);
             .curve(d3.curveCardinal);
@@ -481,35 +485,32 @@ d3.csv('./data.csv', function(dataIn){
             .data(pointData)
            .enter();
 
-        linesCurrent.exit()
-            .remove();
-
         linesCurrent.append("path")
+            .call(transition)
             .attr("d", path)
             .attr('fill','none')
             .attr('stroke','purple')
             .attr('opacity', '.35')
-            .call(transition)
             .on('mouseover', function(d){
                 d3.select(this).attr('opacity', '1');
-                //console.log(Map4.get(d.C15BMSCH));
             })
             .on('mouseout', function(d){
                 d3.select(this).attr('opacity', '.35');
             });
 
 
-        function transition(path) {
-            path.transition()
-                .duration(7500)
-                .attrTween("stroke-dasharray", tweenDash)
-                .delay(function(d,i) { return i*50; })
-        }
+            function transition(path) {
+                path.transition()
+                    .duration(7500)
+                    .attrTween("stroke-dasharray", tweenDash)
+                    .delay(function(d,i) { return i*50; })
+            }
 
-        function tweenDash() {
-            var l = this.getTotalLength(),
-                i = d3.interpolateString("0," + l, l + "," + l);
-            return function(t) { return i(t) };
+            function tweenDash() {
+                var l = this.getTotalLength(),
+                    i = d3.interpolateString("0," + l, l + "," + l);
+                return function(t) { return i(t) };
+
         }
 
         // Returns the path for a given data point.
@@ -615,7 +616,8 @@ function drawPointsFormer(pointData){
                }
             }
             if(p.value ==2){
-                //console.log(d[p.data]);
+                //console.log(+d[p.data]);
+               //console.log(scaleY2_2(+d[p.data]));
                 if (isNaN(+d[p.data])){
                     return [scaleX_2("What age did you actually stop Dancing?"), 0];
                 }
@@ -624,7 +626,7 @@ function drawPointsFormer(pointData){
                 }
             }
             if(p.value ==3){
-                //console.log(Map5.get(+d[p.data]));
+                               //console.log(Map5.get(+d[p.data]));
                 if (isNaN(+d[p.data])){
                     return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get('D'))];
                 }
