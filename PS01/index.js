@@ -25,6 +25,10 @@ var svg = d3.select("body").append("svg")
     .attr('class', 'svg')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+svg.append('text')
+    .text('Current Dancers')
+    .attr("transform", "translate(" + width + "," + height/2 + ")");
+
 var svg2 = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -32,18 +36,31 @@ var svg2 = d3.select("body").append("svg")
     .attr('class', 'svg2')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+svg2.append('text')
+    .text('Former Dancers')
+    .attr("transform", "translate(" + width + "," + height/2 + ")");
+
 var svg3 = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr('class', 'svg3')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg3.append('text')
+    .text('Current Dancers')
+    .attr("transform", "translate(" + margin.left + "," + height/2 + ")");
+
 var svg4 = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr('class', 'svg4')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg4.append('text')
+    .text('Former Dancers')
+    .attr("transform", "translate(" + margin.left + "," + height/2 + ")");
 
 
 
@@ -423,7 +440,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-    //drawPointsCurrent(currentDancers);
+    drawPointsCurrent(currentDancers);
     //drawPointsFormer(formerDancers);
     drawCirclesCurrent(currentDancers);
     drawCirclesFormer(formerDancers);
@@ -717,6 +734,18 @@ function drawCirclesFormer(pointData) {
 
 }
 
+
+function updateData(){
+    svg3.selectAll('.dataLines').remove();
+    drawCirclesCurrent(currentDancers);
+
+    svg4.selectAll('.dataLines').remove();
+    drawCirclesFormer(formerDancers);
+}
+
+window.setInterval(function(){
+    updateData();
+}, 1000);
 
 function buttonClicked(){
 
