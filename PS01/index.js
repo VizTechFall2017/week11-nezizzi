@@ -25,6 +25,7 @@ var svg = d3.select("body").append("svg")
     .attr('class', 'svg')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
 svg.append('text')
     .text('Current Dancers')
     .attr("transform", "translate(" + width + "," + height/2 + ")");
@@ -451,7 +452,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
     drawPointsCurrent(currentDancers);
-    //drawPointsFormer(formerDancers);
+    drawPointsFormer(formerDancers);
     drawCirclesCurrent(currentDancers);
     drawCirclesFormer(formerDancers);
 
