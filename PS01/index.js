@@ -354,11 +354,16 @@ d3.csv('./data.csv', function(dataIn){
         .attr('x', 3+7*width/8)
         .attr('y', function(d){
             if (isNaN(d.value)) {
-                return -1000
+                return 12+15
             } else {
                 return 12+15*d.value
             }})
-        .text(function(d){ return d.text})
+        .text(function(d){
+            if (isNaN(d.value)) {
+                return 'Did Not Answer'
+            } else {
+                return d.text
+            }})
         .attr("font-size", "10px")
         .attr("fill", "black");
 
@@ -430,11 +435,16 @@ d3.csv('./data.csv', function(dataIn){
         .attr('x', 3+7*width/8)
         .attr('y', function(d){
             if (isNaN(d.value)) {
-                return -1000
+                return 12+15
             } else {
                 return 12+15*d.value
             }})
-        .text(function(d){return d.text})
+        .text(function(d){
+            if (isNaN(d.value)) {
+                return 'Did Not Answer'
+            } else {
+                return d.text
+            }})
         .attr("font-size", "10px")
         .attr("fill", "black");
 
