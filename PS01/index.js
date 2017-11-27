@@ -10,7 +10,7 @@ var scaleY2 = d3.scalePoint().range([height, 0]);
 var scaleY3 = d3.scalePoint().range([height, 0]);
 var scaleX_2= d3.scaleOrdinal().range([0, width]);
 var scaleY1_2 = d3.scaleLinear().range([height, 0]);
-var scaleY2_2 = d3.scalePoint().range([height, 0]);
+var scaleY2_2 = d3.scaleLinear().range([height, 0]);
 var scaleY3_2 = d3.scalePoint().range([height, 0]);
 var scaleY4_2 = d3.scalePoint().range([height, 0]);
 
@@ -266,7 +266,6 @@ d3.csv('./data.csv', function(dataIn){
         .call(d3.axisLeft(scaleY1_2));
 
     //"What age did you actually  stop Dancing?"
-
     //console.log(d3.max(dataIn.map(function(d) {return +d.F12BFNCR})));
     scaleY2_2.domain([0, d3.max(dataIn.map(function(d) {return +d.F12BFNCR}))]);
     svg2.append("g")
@@ -453,8 +452,8 @@ d3.csv('./data.csv', function(dataIn){
 
 
 
-    //drawPointsCurrent(currentDancers);
-    //drawPointsFormer(formerDancers);
+    drawPointsCurrent(currentDancers);
+    drawPointsFormer(formerDancers);
     drawCirclesCurrent(currentDancers);
     drawCirclesFormer(formerDancers);
 
@@ -573,9 +572,6 @@ function drawPointsFormer(pointData){
         .data(pointData)
         .enter();
 
-    linesFormer.exit()
-        .remove();
-
     linesFormer.append("path")
         .attr("d", path)
         .attr('fill','none')
@@ -594,7 +590,7 @@ function drawPointsFormer(pointData){
         path.transition()
             .duration(7500)
             .attrTween("stroke-dasharray", tweenDash)
-            .delay(function(d,i) { return i*50; })
+            .delay(function(d,i) { return i*10; })
     }
 
     function tweenDash() {
@@ -609,7 +605,8 @@ function drawPointsFormer(pointData){
            if(p.value ==1){
                //console.log(scaleY1_2(d[p.data]));
                if (isNaN(+d[p.data])){
-                   return [scaleX_2("What age did you expect to stop Dancing?"), 0]
+                   return 0
+                   //return [scaleX_2("What age did you expect to stop Dancing?"), 0]
                }
                else {
                    return [scaleX_2("What age did you expect to stop Dancing?"), scaleY1_2(+d[p.data])];
@@ -619,7 +616,8 @@ function drawPointsFormer(pointData){
                 //console.log(+d[p.data]);
                //console.log(scaleY2_2(+d[p.data]));
                 if (isNaN(+d[p.data])){
-                    return [scaleX_2("What age did you actually stop Dancing?"), 0];
+                    return 0
+                    //return [scaleX_2("What age did you actually stop Dancing?"), 0];
                 }
                 else {
                     return [scaleX_2("What age did you actually stop Dancing?"), scaleY2_2(+d[p.data])];
