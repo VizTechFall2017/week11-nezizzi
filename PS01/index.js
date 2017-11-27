@@ -14,6 +14,10 @@ var scaleY2_2 = d3.scalePoint().range([height, 0]);
 var scaleY3_2 = d3.scalePoint().range([height, 0]);
 var scaleY4_2 = d3.scalePoint().range([height, 0]);
 
+
+
+
+
 var svg = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -34,13 +38,13 @@ var svg3 = d3.select("body").append("svg")
     .append("g")
     .attr('class', 'svg3')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 var svg4 = d3.select("body").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr('class', 'svg4')
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
 
 
 
@@ -335,21 +339,20 @@ d3.csv('./data.csv', function(dataIn){
             if (isNaN(d.value)) {
                 return -1000
             } else {
-                console.log(d.value);
                 return 12+15*d.value
             }})
-        .text(function(d){console.log(d.text); return d.text})
+        .text(function(d){ return d.text})
         .attr("font-size", "10px")
         .attr("fill", "black");
 
 
 
-    circles=svg4.selectAll('circle')
+    circles2=svg4.selectAll('circle')
         .data(challengesFormer)
         .enter()
         .append('circle');
 
-    circle_axis= circles
+    circle_axis2= circles2
         .attr("cx", center_x)
         .attr("cy", center_y)
         .attr("r", function(d){
@@ -412,17 +415,16 @@ d3.csv('./data.csv', function(dataIn){
             if (isNaN(d.value)) {
                 return -1000
             } else {
-                console.log(d.value);
                 return 12+15*d.value
             }})
-        .text(function(d){console.log(d.text); return d.text})
+        .text(function(d){return d.text})
         .attr("font-size", "10px")
         .attr("fill", "black");
 
 
 
-    drawPointsCurrent(currentDancers);
-    drawPointsFormer(formerDancers);
+    //drawPointsCurrent(currentDancers);
+    //drawPointsFormer(formerDancers);
     drawCirclesCurrent(currentDancers);
     drawCirclesFormer(formerDancers);
 
@@ -623,56 +625,57 @@ function drawCirclesCurrent(pointData) {
             return d.C13STOP1;
         });
 
-    //look to see if there are any old bars that don't have keys in the new data list, and remove them.
-    lines.exit()
-        .remove();
+    /*
+        var lineGen = d3.radialLine()
+            .radius(function(d) {
 
-    //update the properties of the remaining bars (as before)
-    lines
-        .attr('x1',center_x)
-        .attr('y1',center_y)
-        .attr('x2', function(d){
-            if (isNaN(d.C13STOP1)) {
-                return center_x
-            } else {
-                return center_x - R*d.C13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('y2', function(d){
-            if (isNaN(d.C13STOP1)) {
-                return center_y
-            } else {
-                return  center_y - R*d.C13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('stroke','purple')
-        .attr('class', 'dataLines');
+                if (isNaN(d.C13STOP1)) {
+                    return center_x
+                } else {
+                    return R*+d.C13STOP1
+                }
+            })
+            .angle(Math.PI/180);
 
-    //add the enter() function to make bars for any new countries in the list, and set their properties
-    lines
-        .enter()
-        .append('line')
-        .attr('x1',center_x)
-        .attr('y1',center_y)
-        .attr('x2', function(d){
-            if (isNaN(d.C13STOP1)) {
-                return center_x
-            } else {
-                return center_x - R*d.C13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('y2', function(d){
-            if (isNaN(d.C13STOP1)) {
-                return center_y
-            } else {
-                return  center_y - R*d.C13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('id', function(d){
-            return 'id' + d.CASEID
-        })
-        .attr('stroke','purple')
-        .attr('class', 'dataLines')
+
+
+        svg3.append("path")
+            .datum(pointData)
+            .attr("class", "line")
+            .attr("d", function (d){
+                lineGen(pointData)
+            });
+
+    */
+
+        lines
+            .enter()
+            .append('line')
+            .attr('x1',center_x)
+            .attr('y1',center_y)
+            .attr('x2', function(d){
+                if (isNaN(d.C13STOP1)) {
+                    return center_x
+                } else {
+                    return center_x - R*d.C13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
+                }
+            })
+            .attr('y2', function(d){
+                if (isNaN(d.C13STOP1)) {
+                    return center_y
+                } else {
+                    return  center_y - R*d.C13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
+                }
+            })
+            .attr('id', function(d){
+                return 'id' + d.CASEID
+            })
+            .attr('stroke','purple')
+            .attr('opacity', '.5')
+            .attr('class', 'dataLines')
+
+
+
 
 }
 
@@ -685,32 +688,7 @@ function drawCirclesFormer(pointData) {
             return d.F13STOP1;
         });
 
-    //look to see if there are any old bars that don't have keys in the new data list, and remove them.
-    lines.exit()
-        .remove();
 
-    //update the properties of the remaining bars (as before)
-    lines
-        .attr('x1',center_x)
-        .attr('y1',center_y)
-        .attr('x2', function(d){
-            if (isNaN(d.F13STOP1)) {
-                return center_x
-            } else {
-                return center_x - R*d.F13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('y2', function(d){
-            if (isNaN(d.F13STOP1)) {
-                return center_y
-            } else {
-                return  center_y - R*d.F13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
-            }
-        })
-        .attr('stroke','blue')
-        .attr('class', 'dataLines');
-
-    //add the enter() function to make bars for any new countries in the list, and set their properties
     lines
         .enter()
         .append('line')
@@ -734,6 +712,7 @@ function drawCirclesFormer(pointData) {
             return 'id' + d.CASEID
         })
         .attr('stroke','blue')
+        .attr('opacity', '.35')
         .attr('class', 'dataLines')
 
 }
