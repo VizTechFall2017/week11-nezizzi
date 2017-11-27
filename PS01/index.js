@@ -423,6 +423,8 @@ d3.csv('./data.csv', function(dataIn){
 
     drawPointsCurrent(currentDancers);
     drawPointsFormer(formerDancers);
+    drawCirclesCurrent(currentDancers);
+    drawCirclesFormer(formerDancers);
 
     });
 
@@ -614,8 +616,125 @@ function drawPointsFormer(pointData){
     }
 }
 
-function drawCircles(pointData) {
+function drawCirclesCurrent(pointData) {
+    var lines = svg3.selectAll('.dataLines')
+        .data(pointData, function(d){
+            //console.log(d.A6QUALS1);
+            return d.C13STOP1;
+        });
 
+    //look to see if there are any old bars that don't have keys in the new data list, and remove them.
+    lines.exit()
+        .remove();
+
+    //update the properties of the remaining bars (as before)
+    lines
+        .attr('x1',center_x)
+        .attr('y1',center_y)
+        .attr('x2', function(d){
+            if (isNaN(d.C13STOP1)) {
+                return center_x
+            } else {
+                return center_x - R*d.C13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('y2', function(d){
+            if (isNaN(d.C13STOP1)) {
+                return center_y
+            } else {
+                return  center_y - R*d.C13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('stroke','purple')
+        .attr('class', 'dataLines');
+
+    //add the enter() function to make bars for any new countries in the list, and set their properties
+    lines
+        .enter()
+        .append('line')
+        .attr('x1',center_x)
+        .attr('y1',center_y)
+        .attr('x2', function(d){
+            if (isNaN(d.C13STOP1)) {
+                return center_x
+            } else {
+                return center_x - R*d.C13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('y2', function(d){
+            if (isNaN(d.C13STOP1)) {
+                return center_y
+            } else {
+                return  center_y - R*d.C13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('id', function(d){
+            return 'id' + d.CASEID
+        })
+        .attr('stroke','purple')
+        .attr('class', 'dataLines')
+
+}
+
+
+
+function drawCirclesFormer(pointData) {
+    var lines = svg4.selectAll('.dataLines')
+        .data(pointData, function(d){
+            //console.log(d.A6QUALS1);
+            return d.F13STOP1;
+        });
+
+    //look to see if there are any old bars that don't have keys in the new data list, and remove them.
+    lines.exit()
+        .remove();
+
+    //update the properties of the remaining bars (as before)
+    lines
+        .attr('x1',center_x)
+        .attr('y1',center_y)
+        .attr('x2', function(d){
+            if (isNaN(d.F13STOP1)) {
+                return center_x
+            } else {
+                return center_x - R*d.F13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('y2', function(d){
+            if (isNaN(d.F13STOP1)) {
+                return center_y
+            } else {
+                return  center_y - R*d.F13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('stroke','blue')
+        .attr('class', 'dataLines');
+
+    //add the enter() function to make bars for any new countries in the list, and set their properties
+    lines
+        .enter()
+        .append('line')
+        .attr('x1',center_x)
+        .attr('y1',center_y)
+        .attr('x2', function(d){
+            if (isNaN(d.F13STOP1)) {
+                return center_x
+            } else {
+                return center_x - R*d.F13STOP1*(Math.cos((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('y2', function(d){
+            if (isNaN(d.F13STOP1)) {
+                return center_y
+            } else {
+                return  center_y - R*d.F13STOP1*(Math.sin((Math.floor(Math.random()*360))*(Math.PI/180)))
+            }
+        })
+        .attr('id', function(d){
+            return 'id' + d.CASEID
+        })
+        .attr('stroke','blue')
+        .attr('class', 'dataLines')
 
 }
 
@@ -623,10 +742,16 @@ function drawCircles(pointData) {
 function buttonClicked(){
 
     svg.selectAll('.current').remove();
-    drawPoints(currentDancers);
+    drawPointsCurrent(currentDancers);
 
     svg2.selectAll('.former').remove();
     drawPointsFormer(formerDancers);
+
+    svg3.selectAll('.dataLines').remove();
+    drawCirclesCurrent(currentDancers);
+
+    svg4.selectAll('.dataLines').remove();
+    drawCirclesFormer(formerDancers);
 
 
 }
