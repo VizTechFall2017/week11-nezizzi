@@ -635,16 +635,16 @@ function drawPointsFormer(pointData){
             }
             if(p.value ==3){
                                //console.log(Map5.get(+d[p.data]));
-                if (isNaN(+d[p.data])  && d[p.data]!="D"){
+                if ( d[p.data]=="D"){ //(isNaN(+d[p.data])  && d[p.data]!="D"){
                     return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get('D'))];
                 }
                 else {
-                    return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(d[p.data]))];
+                    return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get(+d[p.data]))];
                 }
             }
             if(p.value ==4){
                 //console.log(scaleY4_2(Map6.get(0)));
-                if (isNaN(d[p.data])  && d[p.data]!="D"){
+                if ( d[p.data]=="D"){//(isNaN(d[p.data])  && d[p.data]!="D"){
                     return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get('D'))];
                 }
                 else {
