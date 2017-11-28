@@ -208,12 +208,12 @@ var div = d3.select("body").append("div")
 d3.csv('./data.csv', function(dataIn){
 
 
-
     nestedData = d3.nest()
         .key(function (d) {
             return d.A1CURFOR
         })
         .entries(dataIn);
+
     currentDancers = nestedData.filter(function(d){return d.key == '1'})[0].values;
     formerDancers = nestedData.filter(function(d){return d.key == '2'})[0].values;
 
@@ -242,7 +242,7 @@ d3.csv('./data.csv', function(dataIn){
 
 
         //Axis for "What Challenges do you think will be most serious?"
-        scaleY3.domain(dataIn.map(function(d){return Map4.get(+d.C15BMSCH)}));
+        scaleY3.domain(dataIn.map( function(d){console.log(d.C15BMSCH, Map4.get(d.C15BMSCH),  Map4.get(+d.C15BMSCH)); return Map4.get(d.C15BMSCH)}));
         svg.append("g")
             .attr('class','yaxis')
             .call(d3.axisLeft(scaleY3))
@@ -488,7 +488,7 @@ d3.csv('./data.csv', function(dataIn){
             .call(transition)
             .attr("d", path)
             .attr('fill','none')
-            .attr('stroke',function(d){console.log(d.C12STPCR, d.C13STOP1, d.C15BMSCH); return 'purple'}).attr('stroke','purple')
+            .attr('stroke',function(d){console.log(d.C12STPCR, d.C13STOP1, d.C15BMSCH); return 'purple'})
             .attr('opacity', '.35')
             .on('mouseover', function(d){
                 d3.select(this).attr('opacity', '1');
@@ -517,12 +517,15 @@ d3.csv('./data.csv', function(dataIn){
             return lineGen(pathData.map(function(p) {
                 //console.log(p.data, d[p.data], scaleY1(d[p.data]));
                 //console.log(p,scaleX(p.value),scaleY1(d[p.data]));
+
+                console.log(p, d[p.data],scaleY1(d[p.data]));
                 if(p.value ==1){
-                    if (isNaN(d[p.data])){
+                    if ( d[p.data]=="D"){ //isNaN(d[p.data]) ||
                         return 0
                         //return [scaleX("What age do you think you will stop Dancing?"), scaleY1('D')];
                     }
                     else {
+                        //console.log(p, d[p.data], scaleY1(d[p.data]));
                         return [scaleX("What age do you think you will stop Dancing?"), scaleY1(+d[p.data])];
                     }
                 }
@@ -530,7 +533,8 @@ d3.csv('./data.csv', function(dataIn){
                     //console.log(d[p.data]);
                     //console.log(Map2.get(+d[p.data]));
                     //console.log(Map3.get('D'));
-                    if (isNaN(d[p.data])) {
+                    if (d[p.data]=="D") {  //isNaN(d[p.data])  ||
+                        console.log('if p.value == 2');
                         return [scaleX("Why do you think you will stop dancing?"), scaleY2(Map3.get('D'))];
                     }
                     else {
@@ -539,11 +543,12 @@ d3.csv('./data.csv', function(dataIn){
                 }
                 if(p.value ==3){
                     //console.log(d[p.data]);
-                    if (isNaN(d[p.data])){
+                    if ( d[p.data]=="D"){   //isNaN(d[p.data])  ||
+                        console.log('if p.value == 3', Map4.get('D'), scaleY3(Map4.get('D')),scaleY3(Map4.get(d[p.data])),scaleX("What will be the most serious challenge you will face when you stop dancing?"));
                         return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get('D'))];
                     }
                     else {
-                        return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(+d[p.data]))];
+                        return [scaleX("What will be the most serious challenge you will face when you stop dancing?"), scaleY3(Map4.get(d[p.data]))];
                     }
                 }
             }))
@@ -604,7 +609,7 @@ function drawPointsFormer(pointData){
         return lineGen(pathData.map(function(p) {
            if(p.value ==1){
                //console.log(scaleY1_2(d[p.data]));
-               if (isNaN(+d[p.data])){
+               if (isNaN(+d[p.data])  && d[p.data]!="D"){
                    return 0
                    //return [scaleX_2("What age did you expect to stop Dancing?"), 0]
                }
@@ -615,7 +620,7 @@ function drawPointsFormer(pointData){
             if(p.value ==2){
                 //console.log(+d[p.data]);
                //console.log(scaleY2_2(+d[p.data]));
-                if (isNaN(+d[p.data])){
+                if (isNaN(+d[p.data])  && d[p.data]!="D"){
                     return 0
                     //return [scaleX_2("What age did you actually stop Dancing?"), 0];
                 }
@@ -625,7 +630,7 @@ function drawPointsFormer(pointData){
             }
             if(p.value ==3){
                                //console.log(Map5.get(+d[p.data]));
-                if (isNaN(+d[p.data])){
+                if (isNaN(+d[p.data])  && d[p.data]!="D"){
                     return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get('D'))];
                 }
                 else {
@@ -634,7 +639,7 @@ function drawPointsFormer(pointData){
             }
             if(p.value ==4){
                 //console.log(scaleY4_2(Map6.get(0)));
-                if (isNaN(+d[p.data])){
+                if (isNaN(+d[p.data])  && d[p.data]!="D"){
                     return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get('D'))];
                 }
                 else {
