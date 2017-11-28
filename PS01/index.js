@@ -222,8 +222,10 @@ d3.csv('./data.csv', function(dataIn){
             .range([0, width/2, width]);
 
     svg.append("g")
-        . attr('class', 'xaxis')
+        .attr('class', 'xaxis')
         .call(d3.axisBottom(scaleX))
+        .attr('fill', 'none')
+        .attr('stroke-width', '0px')
         .attr('transform', 'translate(0,'+height+')');
 
 
@@ -256,6 +258,8 @@ d3.csv('./data.csv', function(dataIn){
     svg2.append("g")
         .attr('class', 'xaxis')
         .call(d3.axisBottom(scaleX_2))
+        .attr('fill', 'none')
+        .attr('stroke-width', '0px')
         .attr('transform', 'translate(0,'+height+')');
 
 
