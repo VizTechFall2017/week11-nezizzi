@@ -226,6 +226,7 @@ d3.csv('./data.csv', function(dataIn){
         .call(d3.axisBottom(scaleX))
         .attr('fill', 'none')
         .attr('stroke-width', '0px')
+        //.attr('font-weight', 'bold')
         .attr('transform', 'translate(0,'+height+')');
 
 
