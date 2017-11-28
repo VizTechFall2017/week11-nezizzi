@@ -586,13 +586,13 @@ function drawPointsFormer(pointData){
         .attr("d", path)
         .attr('fill','none')
         .attr('stroke','blue')
-        .attr('opacity', '.35')
+        .attr('opacity', '.1')
         .call(transition)
         .on('mouseover', function(d){
             d3.select(this).attr('opacity', '1');
         })
         .on('mouseout', function(d){
-            d3.select(this).attr('opacity', '.35');
+            d3.select(this).attr('opacity', '.1');
         });
 
 
@@ -635,7 +635,7 @@ function drawPointsFormer(pointData){
             }
             if(p.value ==3){
                                //console.log(Map5.get(+d[p.data]));
-                if (isNaN(+d[p.data])  && d[p.data]!="D"){
+                if (d[p.data]!="D"){//isNaN(+d[p.data])  &&
                     return [scaleX_2("Why did you stop dancing?"), scaleY3_2(Map5.get('D'))];
                 }
                 else {
@@ -644,7 +644,7 @@ function drawPointsFormer(pointData){
             }
             if(p.value ==4){
                 //console.log(scaleY4_2(Map6.get(0)));
-                if (isNaN(+d[p.data])  && d[p.data]!="D"){
+                if (isNaN(d[p.data])  && d[p.data]!="D"){
                     return [scaleX_2("What was the most serious challenge you will faced when you stopped dancing?"), scaleY4_2(Map6.get('D'))];
                 }
                 else {
